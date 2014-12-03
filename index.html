@@ -9,24 +9,45 @@
 		<style>
 			h1 { font-size: 2em; }
 			h2 { font-size: 1.5em; }
-			h3 { font-size: 1.25em; border-bottom: 2px solid #f4f4f4; color: #444; margin-top: 1em; }
+			h3 { font-size: 1.25em; border-bottom: 1px solid #ECF5F9; color: #008CBA; margin-top: 0; padding: 0.2em 0.8em; background: #F7FBFC; }
+			.example { margin: 1em 0; border: 1px solid #ECF5F9; }
+			.example + .example { margin-top: 3em; }
+			.example-content { padding: 0 1em; }
 			body { padding-top: 2em; }
-			aside { font-size: 0.875rem; line-height: 1.35; }
+			aside { font-size: 0.875rem; line-height: 1.35; margin-bottom: 2em; }
 			table p { margin: 0; }
+			table p + p { margin-top: 1em; }
 			table tr:nth-of-type(even) { background: #FAFDFF; }
 			table tbody tr td { vertical-align: top; }
-			table code, .panel code { border: 0; background-color: rgba(0, 0, 0, 0.02); }
+			table code { border: 0; background-color: rgba(0, 0, 0, 0.02); }
+			.panel code { background-color: transparent; border: 0; padding: 0; font-weight: bold; font-size: 1.125em; color: #266073; }
+			.panel { background: #F7FBFC; border: 2px solid #B3D9E6; padding: 1em; }
+			.lorem { color: #ccc !important; }
+			p button { margin-bottom: 0; }
+			
+			#screen_size_message {
+				position: fixed;
+				top: 0;
+				right: 0;
+				padding: 0.25em 0.5em;
+				opacity: 0.25;
+				background: #FB3;
+				color: #000;
+				z-index: 10;
+			}
 		</style>
 		
 		<script src="js/vendor/modernizr.js"></script>
 	</head>
 	<body>
 
+		<div id="screen_size_message"></div>
+		
 		<div class="row">
 			<div class="column medium-4">
 				<h1>Responsive Equalized Heights</h1>
 				<p class="subheader"><nobr>for <a href="http://foundation.zurb.com/">ZURB Foundation</a></nobr></p>
-				<p>An intuitive, class-based interface for creating responsively equalized element heights within ZURB Foundation.</p>
+				<p>An intuitive, class-based interface for creating responsive equalized element heights within ZURB Foundation.</p>
 
 				<ul>
 				  <li><a href="https://github.com/jsmreese/responsive-equalized-heights/zipball/master">Download <strong>ZIP File</strong></a></li>
@@ -39,14 +60,15 @@
 
 			<div class="column medium-8">
 				<h2>Why this project?</h2>
-				<p>There are a few height-equalization projects in the wild, and Foundation itself includes the <a href="http://foundation.zurb.com/docs/components/equalizer.html">Equalizer component</a>. I've found that Equalizer handles basic use-cases well, but breaks down for the responsively updating groupings I needed.</p>
-				<p>I love Foundation's class-based syntax for responsive grid column widths (e.g. <code><nobr>medium-6</nobr></code>, <code><nobr>large-4</nobr></code>) and I wanted to be able to specify responsive element height groupings in a similar, intuitive way.</p>
+				<p>A few height-equalization projects are in the wild, and Foundation itself includes the <a href="http://foundation.zurb.com/docs/components/equalizer.html">Equalizer component</a>. I've found that Equalizer handles basic use-cases well, but breaks down for the responsively updating groupings I needed, and none of the independent projects use the class interface I wanted.</p>
+				<p>I love Foundation's simple class name syntax for responsive grid column widths (e.g. <code><nobr>medium-6</nobr></code>, <code><nobr>large-4</nobr></code>, etc.) and I wanted to be able to specify responsive element height groupings in a similar, intuitive way.</p>
 
 				<h2>Format</h2>
-				<p>Responsive height class name format is <code><nobr>&lt;screenSize&gt;-height-&lt;group&gt;</nobr></code>.</p>
+				<p>Responsive height classes use names in this format: <code><nobr>&lt;screenSize&gt;-height-&lt;group&gt;</nobr></code>.</p>
 				<table><tbody>
 					<tr><td><p><code>screenSize</code></p></td><td><p>Any of the Foundation screen-size media query names:<br><code>small</code>, <code>medium</code>, <code>large</code>, <code>xlarge</code>, or <code>xxlarge</code>.</p></td></tr>
-					<tr><td><p><code>group</code></p></td><td><p>Any arbitrary string that creates a valid class name. I most often use one or two lowercase letters, but <code><nobr>medium-height-iCaNhAS-cHeEzBuRgEr</nobr></code> will also work.</p>
+					<tr><td><p><code>group</code></p></td><td><p>Any arbitrary string that creates a valid class name.</p>
+					<p>One or two lowercase letters works well: <code><nobr>medium-height-a</nobr></code>.</p><p>Longer group names also work: <code><nobr>medium-height-iCaNhAS-cHeEzBuRgEr</nobr></code>.</p>
 					<p><code>auto</code> is a reserved group name and will not trigger equalized heights. Use it to override smaller screen equalization by reverting to auto-height layout on larger screens.</td></tr>
 				</tbody></table>
 
@@ -55,168 +77,183 @@
 				<ul>
 					<li>Adding a class of <code><nobr>medium-height-a</nobr></code> to two elements will equalize their height on medium and larger screens.</li>
 					<li>Adding a class of <code><nobr>large-height-a</nobr></code> to another element will equalize the height of all three elements on large and larger screens.</li>
-					<li>Adding a class of <code><nobr>small-height-b</nobr></code> to two elements will equalize their height for all screens.</li>
+					<li>Adding a class of <code><nobr>small-height-b</nobr></code> to two elements will equalize their height for all screen sizes.</li>
 				</ul>
-				<p>Blocks that are in the same height group will share equal height.</p>
+				<p>There are no container classes or parent element requirements. Elements can appear anywhere on the page.</p>
 				<p>Multiple height classes may be used to specify different height groups based on screen size. Using the classes <code><nobr>medium-height-a</nobr> <nobr>large-height-b</nobr></code> would match height group <code>a</code> on medium screens and height group <code>b</code> on large and larger screens.</p>
+				<p>Elements that are in the same group at the current screen size will share equal height.</p>
 				<p>Height classes that are not active, such as the class <code><nobr>xlarge-height-a</nobr></code> on a medium screen, are ignored when determining group height.</p>
+				<p>In the examples below, I've added height classes to <code>.panel</code> elements inside <code>.column</code> elements. You can add height classes directly on the column divs, or any other element you wish&mdash;this pattern of content inside grid containers works best for me.</p>
+
+				<h2>How It Works</h2>
+				<p>Element heights are not set directly on the elements themselves&mdash;rather, for each active screen size, a stylesheet is updated with rules for each active group. A throttled window resize handler refreshes the rules as needed.</p>
+				<p>The JavaScript module extends the global Foundation object with a <code>responsive_heights</code> object, which contains two methods (<code>update</code> and <code>remove</code>) and a reference to the stylesheets for each screen size.</p>
+				<p>To manually remove all responsive height style rules, use the <code>remove</code> method.<br><nobr>Try it: <button value="remove" class="tiny radius" title="Remove all responsive height styles from this page">Remove Rules</button></nobr></p>
+				<p>To manually restore or refresh responsive height style rules, use the <code>update</code> method.<br><nobr>Try it: <button value="update" class="tiny radius" title="Update responsive height styles on this page">Update Rules</button></nobr></p>
+
 				
 				<h2>Examples</h2>
 				
-				<h3>Always Equal</h3>
-				<p>Two elements, always equal in height.</p>
-				<p>Using the small screen size height classes will set the height group for all screens. These elements will share equal height on all screen sizes from small to xxlarge.</p>
-				<div class="row">
-					<div class="column small-6">
-						<div class="callout panel small-height-a">
-							<p><code><nobr>small-height-a</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-						</div>
-					</div>
-					<div class="column small-6">
-						<div class="callout panel small-height-a">
-							<p><code><nobr>small-height-a</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-					</div>
-				</div>
-
-				<h3>Equal for Medium and Larger Screens</h3>
-				<p>Two elements, equal in height for medium and larger screens.</p>
-				<p>If no height class applies to the current screen size, elements heights are not affected. These elements stack and shrink to fit their content on small screens, but arrange side-by-side with equalized height on medium and larger screens.</p>
-				<div class="row">
-					<div class="column medium-6">
-						<div class="callout panel medium-height-b">
-							<p><code><nobr>medium-height-b</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet.</p>
-						</div>
-					</div>
-					<div class="column medium-6">
-						<div class="callout panel medium-height-b">
-							<p><code><nobr>medium-height-b</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+				<div class="example">
+					<h3>Always Equal</h3>
+					<div class="example-content">
+						<p>Two elements, always equal in height.</p>
+						<p>Using the small screen size height classes will set the height group for all screens. These elements will share equal height on all screen sizes from small to xxlarge.</p>
+						<div class="row">
+							<div class="column small-6">
+								<div class="panel small-height-a">
+									<p><code><nobr>small-height-a</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+								</div>
+							</div>
+							<div class="column small-6">
+								<div class="panel small-height-a">
+									<p><code><nobr>small-height-a</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 
-				<h3>Equal for Medium and Larger Screens</h3>
-				<p>Two elements, equal in height for medium and larger screens.</p>
-				<p>If no height class applies to the current screen size, elements heights are not affected. These elements stack and shrink to fit their content on small screens, but arrange side-by-side with equalized height on medium and larger screens.</p>
-				<div class="row">
-					<div class="column medium-6">
-						<div class="callout panel medium-height-b">
-							<p><code><nobr>medium-height-b</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet.</p>
-						</div>
-					</div>
-					<div class="column medium-6">
-						<div class="callout panel medium-height-b">
-							<p><code><nobr>medium-height-b</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-					</div>
-				</div>
-				
-				<h3>Equal for Medium Screens Only</h3>
-				<p>Two elements, equal in height for medium screens only.</p>
-				<p>These elements are arranged side-by-side and equalized in height for medium screens only. The class <code><nobr>large-height-auto</nobr></code> is used to responsively revert to auto-height layout.</p>
-				<p><code>auto</code> is a reserved group name for all screen sizes and uses the format <code><nobr>&lt;screenSize&gt;-height-auto</nobr></code>.</p>
-				<div class="row">
-					<div class="column medium-6 large-12">
-						<div class="callout panel medium-height-c large-height-auto">
-							<p><code><nobr>medium-height-c</nobr> <nobr>large-height-auto</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet.</p>
-						</div>
-					</div>
-					<div class="column medium-6 large-12">
-						<div class="callout panel medium-height-c large-height-auto">
-							<p><code><nobr>medium-height-c</nobr> <nobr>large-height-auto</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
+				<div class="example">
+					<h3>Equal for Medium and Larger Screens</h3>
+					<div class="example-content">
+						<p>Two elements, equal in height for medium and larger screens.</p>
+						<p>If no height class applies to the current screen size, elements heights are not affected. These elements stack and shrink to fit their content on small screens, but arrange side-by-side with equalized height on medium and larger screens.</p>
+						<div class="row">
+							<div class="column medium-6">
+								<div class="panel medium-height-b">
+									<p><code><nobr>medium-height-b</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet.</p>
+								</div>
+							</div>
+							<div class="column medium-6">
+								<div class="panel medium-height-b">
+									<p><code><nobr>medium-height-b</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				
-				<h3>Responsive Group of Three</h3>
-				<p>Three elements, two are always equal. On large and larger screens, all three are equal.</p>
-				<p>To facilitate more complex responsive layouts where elements are stacked sometimes and side-by-side at other times, height groups can be configured based on screen size.</p>
-				<p>The class <code><nobr>large-height-d</nobr></code> is ignored on small and medium screens, but is active on large, xlarge, and xxlarge screens.</p>
-				<div class="row">
-					<div class="column small-6 large-4">
-						<div class="callout panel small-height-d">
-							<p><code><nobr>small-height-d</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet.</p>
-						</div>
-					</div>
-					<div class="column small-6 large-4">
-						<div class="callout panel small-height-d">
-							<p><code><nobr>small-height-d</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
-						</div>
-					</div>
-					<div class="column large-4">
-						<div class="callout panel large-height-d">
-							<p><code><nobr>large-height-d</nobr></code></p>
-							<p>Lorem ipsum dolor.</p>
-						</div>
-					</div>
-				</div>
-				
-				<h3>Responsive Group of Six</h3>
-				<p>Six elements arranged in responsive columns. Height groups are set to responsively match horizontally arranged elements.</p>
-				<p>Complex equalized layouts can be created. These six elements rearrange themselves for a different configuration at small, medium, and large screen sizes.</p>
-				<div class="row">
-					<div class="column medium-6 large-4">
-						<div class="callout panel medium-height-e large-height-g">
-							<p><code><nobr>medium-height-e</nobr> <nobr>large-height-g</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet.</p>
-						</div>
-					</div>
-					<div class="column medium-6 large-4">
-						<div class="callout panel medium-height-e large-height-g">
-							<p><code><nobr>medium-height-e</nobr> <nobr>large-height-g</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-						</div>
-					</div>
-					<div class="column medium-4">
-						<div class="callout panel medium-height-f large-height-g">
-							<p><code><nobr>medium-height-f</nobr> <nobr>large-height-g</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-					</div>
-					<div class="column medium-4">
-						<div class="callout panel medium-height-f large-height-h">
-							<p><code><nobr>medium-height-f</nobr> <nobr>large-height-h</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-						</div>
-					</div>
-					<div class="column medium-4">
-						<div class="callout panel medium-height-f large-height-h">
-							<p><code><nobr>medium-height-f</nobr> <nobr>large-height-h</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
-						</div>
-					</div>
-					<div class="column large-4">
-						<div class="callout panel large-height-h">
-							<p><code><nobr>large-height-h</nobr></code></p>
-							<p>Lorem ipsum dolor.</p>
+
+				<div class="example">				
+					<h3>Equal for Medium Screens Only</h3>
+					<div class="example-content">
+						<p>Two elements, equal in height for medium screens only.</p>
+						<p>These elements are arranged side-by-side and equalized in height for medium screens only. The class <code><nobr>large-height-auto</nobr></code> is used to responsively revert to auto-height layout.</p>
+						<p><code>auto</code> is a reserved group name for all screen sizes and uses the format <code><nobr>&lt;screenSize&gt;-height-auto</nobr></code>.</p>
+						<div class="row">
+							<div class="column medium-6 large-12">
+								<div class="panel medium-height-c large-height-auto">
+									<p><code><nobr>medium-height-c</nobr> <nobr>large-height-auto</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet.</p>
+								</div>
+							</div>
+							<div class="column medium-6 large-12">
+								<div class="panel medium-height-c large-height-auto">
+									<p><code><nobr>medium-height-c</nobr> <nobr>large-height-auto</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				
-				<h3>Arbitrary Group Names</h3>
-				<p>Group names can be any string that creates a valid class name.</p>
-				<p>Remember that <code>auto</code> is a reserved group name.</p>
-				<div class="row">
-					<div class="column medium-6">
-						<div class="callout panel medium-height-iCaNhAS-cHeEzBuRgEr">
-							<p><code><nobr>medium-height-iCaNhAS-cHeEzBuRgEr</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+				<div class="example">				
+					<h3>Responsive Group of Three</h3>
+					<div class="example-content">
+						<p>Three elements, two are always equal. On large and larger screens, all three are equal.</p>
+						<p>To facilitate more complex responsive layouts where elements are stacked sometimes and side-by-side at other times, height groups can be configured based on screen size.</p>
+						<p>The class <code><nobr>large-height-d</nobr></code> is ignored on small and medium screens, but is active on large, xlarge, and xxlarge screens.</p>
+						<div class="row">
+							<div class="column small-6 large-4">
+								<div class="panel small-height-d">
+									<p><code><nobr>small-height-d</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet.</p>
+								</div>
+							</div>
+							<div class="column small-6 large-4">
+								<div class="panel small-height-d">
+									<p><code><nobr>small-height-d</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
+								</div>
+							</div>
+							<div class="column large-4">
+								<div class="panel large-height-d">
+									<p><code><nobr>large-height-d</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor.</p>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="column medium-6">
-						<div class="callout panel medium-height-iCaNhAS-cHeEzBuRgEr">
-							<p><code><nobr>medium-height-iCaNhAS-cHeEzBuRgEr</nobr></code></p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+				</div>
+
+				<div class="example">				
+					<h3>Responsive Group of Six</h3>
+					<div class="example-content">
+						<p>Six elements arranged in responsive columns. Height groups are set to responsively match horizontally arranged elements.</p>
+						<p>Complex equalized layouts can be created. These six elements rearrange themselves for a different configuration at small, medium, and large screen sizes.</p>
+						<div class="row">
+							<div class="column medium-6 large-4">
+								<div class="panel medium-height-e large-height-g">
+									<p><code><nobr>medium-height-e</nobr> <nobr>large-height-g</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet.</p>
+								</div>
+							</div>
+							<div class="column medium-6 large-4">
+								<div class="panel medium-height-e large-height-g">
+									<p><code><nobr>medium-height-e</nobr> <nobr>large-height-g</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+								</div>
+							</div>
+							<div class="column medium-4">
+								<div class="panel medium-height-f large-height-g">
+									<p><code><nobr>medium-height-f</nobr> <nobr>large-height-g</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+							</div>
+							<div class="column medium-4">
+								<div class="panel medium-height-f large-height-h">
+									<p><code><nobr>medium-height-f</nobr> <nobr>large-height-h</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+								</div>
+							</div>
+							<div class="column medium-4">
+								<div class="panel medium-height-f large-height-h">
+									<p><code><nobr>medium-height-f</nobr> <nobr>large-height-h</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
+								</div>
+							</div>
+							<div class="column large-4">
+								<div class="panel large-height-h">
+									<p><code><nobr>large-height-h</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="example">
+					<h3>Arbitrary Group Names</h3>
+					<div class="example-content">
+						<p>Group names can be any string that creates a valid class name.</p>
+						<p>Remember that <code>auto</code> is a reserved group name.</p>
+						<div class="row">
+							<div class="column medium-6">
+								<div class="panel medium-height-iCaNhAS-cHeEzBuRgEr">
+									<p><code><nobr>medium-height-iCaNhAS-cHeEzBuRgEr</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+								</div>
+							</div>
+							<div class="column medium-6">
+								<div class="panel medium-height-iCaNhAS-cHeEzBuRgEr">
+									<p><code><nobr>medium-height-iCaNhAS-cHeEzBuRgEr</nobr></code></p>
+									<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -227,7 +264,82 @@
 		<script src="js/foundation.min.js"></script>
 		<script src="js/responsive-equalized-heights.js"></script>
 		<script>
-			$(document).foundation();
+			(function (window, undefined) {
+				var sizes, F, $, $message;
+
+				// each
+				function each(array, callback) {
+					var index, max;
+
+					index = 0;
+					max = array.length;
+
+					if (!array || !max) { return; }
+
+					while (index < max) {
+						if (callback(array[index], index) === false) { return; }
+						index += 1;
+					}
+				}
+
+				// map
+				function map(array, callback) {
+					var index = 0,
+						max = array.length,
+						ret = [];
+
+					if (!array || !max) { return ret; }
+
+					while (index < max) {
+						ret[index] = callback(array[index], index);
+						index += 1;
+					}
+
+					return ret;
+				}
+
+				// compact
+				function compact(array) {
+					var ret = [];
+
+					each(array, function (item) {
+						if (item) { ret.push(item); }
+					});
+
+					return ret;
+				}
+	
+				function updateScreenSizeMessage() {
+					var activeSizes, currentSize;
+					
+					activeSizes = compact(map(sizes, function (size) {
+						if (matchMedia(F.media_queries[size]).matches) {
+							return size;
+						}
+					}));
+
+					currentSize = activeSizes[activeSizes.length - 1];
+					
+					$message.text("current screen size: " + currentSize);
+				}
+				
+				F = window.Foundation;
+				$ = window.jQuery;
+				
+				$message = $("#screen_size_message");
+				
+				sizes = "small medium large xlarge xxlarge".split(" ");
+
+				$(document).foundation();
+			
+				$(window).on("resize", F.utils.throttle(updateScreenSizeMessage, 250));
+
+				$("button").on("click", function () {
+					F.responsive_heights[this.value]();
+				});
+				
+				updateScreenSizeMessage();
+			})(this);
 		</script>
 	</body>
 </html>
