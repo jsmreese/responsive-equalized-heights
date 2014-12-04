@@ -5,11 +5,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Responsive Equalized Heights for ZURB Foundation by jsmreese</title>
 		<link rel="stylesheet" href="css/foundation.css" />
+		<link rel="stylesheet" href="css/prism.css" />
 		
 		<style>
 			h1 { font-size: 2em; }
 			h2 { font-size: 1.5em; }
-			h3 { font-size: 1.25em; border-bottom: 1px solid #E0EFF5; color: #008CBA; margin-top: 0; padding: 0.2em 0.8em; background: #F7FBFC; }
+			* + h2 { margin-top: 2em; }
+			h3 { font-size: 1.125em; }
+			.example h3 { font-size: 1.25em; border-bottom: 1px solid #E0EFF5; color: #008CBA; margin-top: 0; padding: 0.2em 0.8em; background: #F7FBFC; }
 			.example { margin: 1em 0; border: 1px solid #E0EFF5; }
 			.example + .example { margin-top: 3em; }
 			.example-content { padding: 0 1em; }
@@ -35,6 +38,9 @@
 				color: #000;
 				z-index: 10;
 			}
+			
+			pre[class*="language-"] { margin: 1em 0; }
+			pre code { background-color: rgba(0, 0, 0, 0); border: 0; padding: 0; }
 		</style>
 		
 		<script src="js/vendor/modernizr.js"></script>
@@ -60,11 +66,18 @@
 
 			<div class="column medium-8">
 				<h2>Why this project?</h2>
-				<p>A few height-equalization projects are in the wild, and Foundation itself includes the <a href="http://foundation.zurb.com/docs/components/equalizer.html">Equalizer component</a>. I've found that Equalizer handles basic use-cases well, but breaks down for the responsively updating groupings I needed, and none of the independent projects use the class interface I wanted.</p>
+				<p>Foundation itself includes the <a href="http://foundation.zurb.com/docs/components/equalizer.html">Equalizer component</a>, and there are a few more height-equalization projects in the wild. I've found that Equalizer handles basic use-cases well, but breaks down for the responsively updating groupings I needed, and none of the independent projects use the class interface I wanted.</p>
 				<p>I love Foundation's simple class name syntax for responsive grid column widths (e.g. <code><nobr>medium-6</nobr></code>, <code><nobr>large-4</nobr></code>, etc.) and I wanted to be able to specify responsive element height groupings in a similar, intuitive way.</p>
 
+				<h2>Usage</h2>
+				<p>To use Responsive Equalized Heights, simply include a reference to this project's script <em>after</em> Foundation's script.</p>
+				<pre><code class="language-markup">&lt;script src="path/to/responsive-equalized-heights.js"&gt;&lt/script&gt;
+</code></pre>
+				<p>Then add responsive height classes to some elements.</p>
+				<p>Responsive Equalized Heights is built to work with the grid from Foundation 5. It is untested with earlier versions of Foundation.</p>
+
 				<h2>Format</h2>
-				<p>Responsive height classes use names in this format: <code><nobr>&lt;screenSize&gt;-height-&lt;group&gt;</nobr></code>.</p>
+				<p>Responsive height class names follow this format: <code><nobr>&lt;screenSize&gt;-height-&lt;group&gt;</nobr></code>.</p>
 				<table><tbody>
 					<tr><td><p><code>screenSize</code></p></td><td><p>Any of the Foundation screen-size media query names:<br><code>small</code>, <code>medium</code>, <code>large</code>, <code>xlarge</code>, or <code>xxlarge</code>.</p></td></tr>
 					<tr><td><p><code>group</code></p></td><td><p>Any arbitrary string that creates a valid class name.</p>
@@ -85,13 +98,44 @@
 				<p>Height classes that are not active, such as the class <code><nobr>xlarge-height-a</nobr></code> on a medium screen, are ignored when determining group height.</p>
 				<p>In the examples below, I've added height classes to <code>.panel</code> elements inside <code>.column</code> elements. You can add height classes directly on the column divs, or any other element you wish&mdash;this pattern of content inside grid containers works best for me.</p>
 
+				<h2>Callbacks</h2>
+				<p>Just as with Foundation Equalizer, there are two ways to attach callbacks.</p>
+				
+				<h3>Callback Functions</h3>
+				<pre><code class="language-javascript">// before_height_change callback
+Foundation.responsive_heights.before_height_change = function () {
+	console.log("before_height_change callback");
+};
+
+// after_height_change callback
+Foundation.responsive_heights.after_height_change = function () {
+	console.log("after_height_change callback");
+};</code></pre>
+
+				<h3>Events</h3>
+				<pre><code class="language-javascript">// before-height-change.fndtn.responsive-heights event
+$(document).on('before-height-change.fndtn.responsive-heights', function(){
+  console.log("before-height-change.fndtn.responsive-heights event");
+});
+
+// after-height-change.fndtn.responsive-heights event
+$(document).on('after-height-change.fndtn.responsive-heights', function(){
+  console.log("after-height-change.fndtn.responsive-heights event");
+});</code></pre>
+	
 				<h2>How It Works</h2>
 				<p>Element heights are not set directly on the elements themselves&mdash;rather, for each active screen size, a stylesheet is updated with rules for each active group. A throttled window resize handler refreshes the rules as needed.</p>
 				<p>The JavaScript module extends the global Foundation object with a <code>responsive_heights</code> object, which contains two methods (<code>update</code> and <code>remove</code>) and a reference to the stylesheets for each screen size.</p>
-				<p>To manually remove all responsive height style rules, use the <code>remove</code> method.<br><nobr>Try it: <button value="remove" class="tiny radius" title="Remove all responsive height styles from this page">Remove Rules</button></nobr></p>
-				<p>To manually restore or refresh responsive height style rules, use the <code>update</code> method.<br><nobr>Try it: <button value="update" class="tiny radius" title="Update responsive height styles on this page">Update Rules</button></nobr></p>
+				<p>To manually remove all responsive height style rules, use the <code>remove</code> method, and to manually restore or refresh responsive height style rules, use the <code>update</code> method.</p>
+				<p>In JavaScript:</p>
+				<pre><code class="language-javascript">// remove method
+Foundation.responsive_heights.remove();
 
+// update method
+Foundation.responsive_heights.update();</code></pre>
+				<p>Try it: <button value="remove" class="tiny radius" title="Remove all responsive height rules from this page">Remove Rules</button> <button value="update" class="tiny radius" title="Update responsive height rules on this page">Update Rules</button></p>
 				
+
 				<h2>Examples</h2>
 				
 				<div class="example">
@@ -275,6 +319,7 @@
 		<script src="js/vendor/jquery.js"></script>
 		<script src="js/foundation.min.js"></script>
 		<script src="js/responsive-equalized-heights.js"></script>
+		<script src="js/vendor/prism.js"></script>
 		<script>
 			(function (window, undefined) {
 				var sizes, F, $, $message;
