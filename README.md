@@ -33,7 +33,13 @@ Responsive height classes use this format:
 
 `screen_size` is any of the Foundation screen sizes: `small`, `medium`, `large`, `xlarge`, or `xxlarge`.
 
-`group_name` is any arbitrary string that will create a valid class name. One or two letters work well (`small-height-a` or `medium-height-aa`), but longer group names are fine (`large-height-I-am-a-long__Group-Name`). `auto` is a reserved group name.
+`group_name` is any arbitrary string that will create a valid class name.
+
+One or two letters work well: `small-height-a` or `medium-height-aa`
+
+Longer names work, too: `large-height-I-am-a-long__Group-Name`
+
+`auto` is a reserved group name.
 
 At any screen size, all of the elements in each group will share equalized height.
 
