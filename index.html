@@ -77,10 +77,10 @@
 				<p>Responsive Equalized Heights is built to work with the grid from Foundation 5. It is untested with earlier versions of Foundation.</p>
 
 				<h2>Format</h2>
-				<p>Responsive height class names follow this format: <code><nobr>&lt;screenSize&gt;-height-&lt;group&gt;</nobr></code>.</p>
+				<p>Responsive height class names follow this format: <code><nobr>&lt;screen_size&gt;-height-&lt;group_name&gt;</nobr></code>.</p>
 				<table><tbody>
-					<tr><td><p><code>screenSize</code></p></td><td><p>Any of the Foundation screen-size media query names:<br><code>small</code>, <code>medium</code>, <code>large</code>, <code>xlarge</code>, or <code>xxlarge</code>.</p></td></tr>
-					<tr><td><p><code>group</code></p></td><td><p>Any arbitrary string that creates a valid class name.</p>
+					<tr><td><p><code>screen_size</code></p></td><td><p>Any of the Foundation screen-size media query names:<br><code>small</code>, <code>medium</code>, <code>large</code>, <code>xlarge</code>, or <code>xxlarge</code>.</p></td></tr>
+					<tr><td><p><code>group_name</code></p></td><td><p>Any arbitrary string that creates a valid class name.</p>
 					<p>One or two lowercase letters works well: <code><nobr>medium-height-a</nobr></code>.</p><p>Longer group names also work: <code><nobr>medium-height-iCaNhAS-cHeEzBuRgEr</nobr></code>.</p>
 					<p><code>auto</code> is a reserved group name and will not trigger equalized heights. Use it to override smaller screen equalization by reverting to auto-height layout on larger screens.</td></tr>
 				</tbody></table>
@@ -89,11 +89,11 @@
 				<p>Responsive element height classes act just like column width classes with regard to screen size:</p>
 				<ul>
 					<li>Adding a class of <code><nobr>medium-height-a</nobr></code> to two elements will equalize their height on medium and larger screens.</li>
-					<li>Adding a class of <code><nobr>large-height-a</nobr></code> to another element will equalize the height of all three elements on large and larger screens.</li>
+					<li>Adding a class of <code><nobr>large-height-a</nobr></code> to another element will equalize the height of all three elements on large screens and above.</li>
 					<li>Adding a class of <code><nobr>small-height-b</nobr></code> to two elements will equalize their height for all screen sizes.</li>
 				</ul>
 				<p>There are no container classes, no data attributes, and no parent element requirements. Elements can appear anywhere on the page.</p>
-				<p>Multiple height classes may be used to specify different height groups based on screen size. Using the classes <code><nobr>medium-height-a</nobr> <nobr>large-height-b</nobr></code> would match height group <code>a</code> on medium screens and height group <code>b</code> on large and larger screens.</p>
+				<p>Multiple height classes may be used to specify different height groups based on screen size. Using the classes <code><nobr>medium-height-a</nobr> <nobr>large-height-b</nobr></code> would match height group <code>a</code> on medium screens and height group <code>b</code> on large screens and above.</p>
 				<p>Elements that are in the same group at the current screen size will share equal height.</p>
 				<p>Height classes that are not active, such as the class <code><nobr>xlarge-height-a</nobr></code> on a medium screen, are ignored when determining group height.</p>
 				<p>In the examples below, I&rsquo;ve added height classes to <code>.panel</code> elements inside <code>.column</code> elements. You can add height classes directly on the column divs, or any other element you wish&mdash;this pattern of content inside grid containers works best for me.</p>
@@ -186,8 +186,8 @@ Foundation.responsive_heights.update();</code></pre>
 					<h3>Equal for Medium Screens Only</h3>
 					<div class="example-content">
 						<p>Two elements, equal in height for medium screens only.</p>
-						<p>These elements are arranged side-by-side and equalized in height for medium screens only. The class <code><nobr>large-height-auto</nobr></code> is used to responsively revert to auto-height layout.</p>
-						<p><code>auto</code> is a reserved group name for all screen sizes and uses the format <code><nobr>&lt;screenSize&gt;-height-auto</nobr></code>.</p>
+						<p>The group name <code>auto</code> is reserved for all screen sizes, and will revert to auto-height layout. Use the format <code><nobr>&lt;screen_size&gt;-height-auto</nobr></code></p>
+						<p>This example uses the class <code><nobr>large-height-auto</nobr></code> to responsively revert to auto-height layout for large screens and above.</p>
 						<div class="row">
 							<div class="column medium-6 large-12">
 								<div class="panel medium-height-c large-height-auto">
@@ -208,7 +208,7 @@ Foundation.responsive_heights.update();</code></pre>
 				<div class="example">				
 					<h3>Responsive Group of Three</h3>
 					<div class="example-content">
-						<p>Three elements, two are always equal. On large and larger screens, all three are equal.</p>
+						<p>Three elements, two are always equal. On large screens and above, all three are equal.</p>
 						<p>To facilitate more complex responsive layouts where elements are stacked sometimes and side-by-side at other times, height groups can be configured based on screen size.</p>
 						<p>The class <code><nobr>large-height-d</nobr></code> is ignored on small and medium screens, but is active on large, xlarge, and xxlarge screens.</p>
 						<div class="row">
