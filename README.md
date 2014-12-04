@@ -3,15 +3,25 @@ for ZURB Foundation
 
 An intuitive, class-based interface for creating responsive equalized element heights within ZURB Foundation.
 
-### Usage
+### Installation
 
 Responsive Equalized Heights is built to work with the grid from Foundation 5. It is untested with earlier versions of Foundation.
 
-Include this project's script in your page *after* Foundation.
+**Bower**
+
+```
+bower install responsive-equalized-heights
+```
+
+**Browser**
 
 ```
 <script src="path/to/responsive-equalized-heights.js"></script>
 ```
+
+### Usage
+
+Include this project's script in your page *after* Foundation.
 
 Then add responsive height classes to any elements that should be equalized. That's all. No container classes, no data attributes, no parent element requirements.
 
