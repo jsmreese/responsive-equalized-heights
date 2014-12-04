@@ -1,10 +1,22 @@
-(function (window, undefined) {
+/*! Responsive Equalized Heights v1.0.0
+ *  https://github.com/jsmreese/responsive-equalized-heights
+ *  Date: 2014-12-03
+ *
+ *  Responsive equalized element heights for ZURB Foundation
+ *  http://foundation.zurb.com/
+ *
+ *  Copyright 2014 John Madhavan-Reese
+ *  Released under the MIT license
+ */
+ 
+ (function (window, undefined) {
 	"use strict";
 
-	var sizes, sheets, matchers, $, F;
+	var sizes, sheets, matchers, $, F, $document;
 	
 	$ = window.jQuery;
 	F = window.Foundation;
+	$document = $(window.document);
 
 	// find
 	function find(array, callback) {
@@ -129,7 +141,7 @@
 	}
 
 	// get array of active screen sizes
-	// the current screen size is the last active size in the array
+	// the current screen size is the last size in the array
 	function getActiveSizes() {
 		return compact(map(sizes, function (size) {
 			if (matchMedia(F.media_queries[size]).matches) {
@@ -138,15 +150,9 @@
 		}));
 	}
 
-	// update stylesheet rules
-	function updateRules() {
-		deleteRules();
-		addRules();
-	}
-
 	// create responsive height rules
 	function addRules() {
-		var cache, activeSizes, $elems, groups;
+		var cache, activeSizes, groups;
 
 		// setup groups and element cache
 		groups = [];
@@ -157,38 +163,31 @@
 			cache[size] = {};
 		});
 
-		// general selector will find all possible matches
-		$elems = $('[class*="-height-"]');
-
-		// filter possible matches to find real size groups
-		$elems = $elems.filter(function (index, elem) {
-			var match;
-
+		// general [class*="-height-"] selector will find all possible matches
+		$('[class*="-height-"]').each(function (index, elem) {
 			each(activeSizes, function (size) {
-				var sizeMatch, group;
+				var match, group;
 
-				sizeMatch = matchers[size].exec(" " + elem.className);
+				// find matching className for each size on each element
+				match = matchers[size].exec(" " + elem.className);
 
-				if (sizeMatch) {
-					group = sizeMatch[1];
+				if (match) {
+					group = match[1];
 					
 					if (group !== "auto") {
-						match = true;
-
-						// save group name
+						// save group name if not 'auto'
 						groups.push(group);
-
-						// cache element under size group
+						
 						if (cache[size][group]) {
+							// add element to size group cache
 							cache[size][group] = $(cache[size][group]).add(elem);
 						} else {
+							// create size group cache
 							cache[size][group] = $(elem);
 						}
 					}
 				}
 			});
-
-			return match;
 		});
 
 		// create unique list of groups
@@ -226,8 +225,7 @@
 				}
 			});
 
-			// if there are active elements for this group
-			// create rules
+			// if there are active elements for this group then create rules
 			if ($group.length) {
 				// find max element height in group
 				// use outerHeight to include padding and border because of box-sizing: border-box;
@@ -240,6 +238,29 @@
 				});
 			}
 		});
+	}
+
+	// update stylesheet rules
+	function updateRules() {
+		// before_height_change callback
+		if (typeof F.responsive_heights.before_height_change === "function") {
+			F.responsive_heights.before_height_change();
+		}
+		
+		// before-height-change.fndtn.responsive-heights event
+		$document.trigger('before-height-change.fndtn.responsive-heights');
+		
+		// update rules
+		deleteRules();
+		addRules();
+		
+		// after_height_change callback
+		if (typeof F.responsive_heights.after_height_change === "function") {
+			F.responsive_heights.after_height_change();
+		}
+
+		// after-height-change.fndtn.responsive-heights event
+		$document.trigger('after-height-change.fndtn.responsive-heights');
 	}
 
 	// setup sizes
@@ -263,6 +284,8 @@
 	F.responsive_heights = {
 		stylesheets: sheets,
 		update: updateRules,
-		remove: deleteRules
+		remove: deleteRules,
+		before_height_change: null,
+		after_height_change: null
 	};
 })(this);
