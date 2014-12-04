@@ -13,6 +13,12 @@ Responsive Equalized Heights is built to work with the grid from Foundation 5. I
 bower install responsive-equalized-heights
 ```
 
+**npm**
+
+```
+npm install responsive-equalized-heights
+```
+
 **Browser**
 
 ```
