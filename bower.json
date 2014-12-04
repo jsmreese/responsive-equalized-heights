@@ -1,0 +1,27 @@
+{
+	"name": "responsive-equalized-heights",
+	"version": "1.0.0",
+	"description": "An intuitive, class-based interface for creating responsive equalized element heights within ZURB Foundation.",
+	"main": "lib/responsive-equalized-heights.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/jsmreese/responsive-equalized-heights.git"
+	},
+	"authors": [
+		"John Madhavan-Reese <jsmreese@pureshare.com> (http://pureshare.com/)"
+	],
+	"keywords": [
+		"zurb",
+		"foundation",
+		"equal",
+		"equalize",
+		"equalized",
+		"height",
+		"heights"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*"
+	],
+	"homepage": "http://jsmreese.github.io/responsive-equalized-heights/"
+}
