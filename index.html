@@ -69,14 +69,18 @@
 				<p>Foundation itself includes the <a href="http://foundation.zurb.com/docs/components/equalizer.html">Equalizer component</a>, and there are a few more height-equalization projects in the wild. I&rsquo;ve found that Equalizer handles basic use-cases well, but breaks down for the responsively updating groupings I needed, and none of the independent projects use the class interface I wanted.</p>
 				<p>I love Foundation&rsquo;s simple class name syntax for responsive grid column widths (e.g. <code><nobr>medium-6</nobr></code>, <code><nobr>large-4</nobr></code>, etc.) and I wanted to be able to specify responsive element height groupings in a similar, intuitive way.</p>
 
-				<h2>Usage</h2>
+				<h2>Installation</h2>
 				<p>To use Responsive Equalized Heights, simply include a reference to this project&rsquo;s script <em>after</em> Foundation&rsquo;s script.</p>
 				<pre><code class="language-markup">&lt;script src="path/to/responsive-equalized-heights.js"&gt;&lt/script&gt;
 </code></pre>
 				<p>Then add responsive height classes to some elements.</p>
 				<p>Responsive Equalized Heights is built to work with the grid from Foundation 5. It is untested with earlier versions of Foundation.</p>
+				
+				<p>If you use Bower:</p>
+				<pre><code class="language-javascript">bower install responsive-equalized-heights
+</code></pre>
 
-				<h2>Format</h2>
+				<h2>Usage</h2>
 				<p>Responsive height class names follow this format: <code><nobr>&lt;screen_size&gt;-height-&lt;group_name&gt;</nobr></code>.</p>
 				<table><tbody>
 					<tr><td><p><code>screen_size</code></p></td><td><p>Any of the Foundation screen-size media query names:<br><code>small</code>, <code>medium</code>, <code>large</code>, <code>xlarge</code>, or <code>xxlarge</code>.</p></td></tr>
