@@ -1,30 +1,453 @@
 <!doctype html>
 <html lang="en" ng-app="application">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation Angular</title>
-    <link href="assets/css/app.css" rel="stylesheet" type="text/css">
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/routes.js"></script>
-    <script src="assets/js/angular.js"></script>
-  </head>
-  <body>
-    <div class="grid-frame vertical">
-      <div class="grid-content shrink" style="padding: 0;">
-        <ul class="primary condense menu-bar">
-          <li><a><strong>Foundation for Apps</strong></a></li>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">News</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div class="grid-content">
-        <div class="grid-container">
-          <div ng-class="['ui-animation']" ui-view></div>
-        </div>
-      </div>
-    </div>
-  </body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Responsive Equalized Heights for ZURB Foundation by jsmreese</title>
+		<link href="assets/css/app.css" rel="stylesheet" />
+		<link href="../css/prism.css" rel="stylesheet" />
+		<script src="assets/js/app.js"></script>
+		<script src="assets/js/routes.js"></script>
+		<script src="assets/js/angular.js"></script>
+		
+		<style>
+			h1 { font-size: 2em; }
+			h2 { font-size: 1.5em; }
+			* + h2 { margin-top: 2em; }
+			h3 { font-size: 1.125em; }
+			.example h3 { font-size: 1.25em; border-bottom: 1px solid #E0EFF5; color: #008CBA; margin-top: 0; padding: 0.2em 0.8em; background: #F7FBFC; }
+			.example { margin: 1em 0; border: 1px solid #E0EFF5; }
+			.example + .example { margin-top: 3em; }
+			.example-content { padding: 0 1em; }
+			body { padding-top: 2em; }
+			aside { font-size: 0.875rem; line-height: 1.35; margin-bottom: 2em; }
+			table p { margin: 0; }
+			table p + p { margin-top: 1em; }
+			table tr:nth-of-type(even) { background: #FAFDFF; }
+			table tbody tr td { vertical-align: top; }
+			table code { border: 0; background-color: rgba(0, 0, 0, 0.02); }
+			.panel code { background-color: transparent; border: 0; padding: 0; font-weight: bold; font-size: 1.125em; color: #266073; }
+			.panel { background: #F7FBFC; border: 2px solid #B3D9E6; padding: 1em; }
+			.lorem { color: #ccc !important; }
+			p button { margin-bottom: 0; }
+			
+			#screen_size_message {
+				position: fixed;
+				top: 0;
+				right: 0;
+				padding: 0.25em 0.5em;
+				opacity: 0.25;
+				background: #FB3;
+				color: #000;
+				z-index: 10;
+			}
+			
+			pre[class*="language-"] { margin: 1em 0; }
+			pre code { background-color: rgba(0, 0, 0, 0); border: 0; padding: 0; }
+		</style>
+	</head>
+	<body>
+
+		<div id="screen_size_message"></div>
+	
+		<div class="grid-frame">
+			<div class="grid-block medium-4">
+				<div class="grid-content">
+					<h1>Responsive Equalized Heights</h1>
+					<p class="subheader"><nobr>for <a href="http://foundation.zurb.com/">ZURB Foundation</a></nobr></p>
+					<p>An intuitive, class-based interface for creating responsive equalized element heights within ZURB Foundation.</p>
+
+					<ul>
+					  <li><a href="https://github.com/jsmreese/responsive-equalized-heights/zipball/master">Download <strong>ZIP File</strong></a></li>
+					  <li><a href="https://github.com/jsmreese/responsive-equalized-heights/tarball/master">Download <strong>TAR Ball</strong></a></li>
+					  <li><a href="https://github.com/jsmreese/responsive-equalized-heights">View On <strong>GitHub</strong></a></li>
+					</ul>
+
+					<aside>Created by <a href="https://github.com/jsmreese">jsmreese</a>.</aside>
+				</div>
+			</div>
+
+			<div class="grid-block medium-8">
+				-- need more grid-blocks here?
+				-- then content?
+				-- how do example rows/columns translate to grid blocks/content?
+				<div class="grid-content">
+					<h2>Why this project?</h2>
+					<p>Foundation itself includes the <a href="http://foundation.zurb.com/docs/components/equalizer.html">Equalizer component</a>, and there are a few more height-equalization projects in the wild. I&rsquo;ve found that Equalizer handles basic use-cases well, but breaks down for the responsively updating groupings I needed, and none of the independent projects use the class interface I wanted.</p>
+					<p>I love Foundation&rsquo;s simple class name syntax for responsive grid column widths (e.g. <code><nobr>medium-6</nobr></code>, <code><nobr>large-4</nobr></code>, etc.) and I wanted to be able to specify responsive element height groupings in a similar, intuitive way.</p>
+
+					<h2>Installation</h2>
+					<p>To use Responsive Equalized Heights, simply include a reference to this project&rsquo;s script <em>after</em> Foundation&rsquo;s script.</p>
+					<pre><code class="language-markup">&lt;script src="path/to/responsive-equalized-heights.js"&gt;&lt/script&gt;
+	</code></pre>
+					<p>Then add responsive height classes to some elements.</p>
+					<p>Responsive Equalized Heights is built to work with the grid from Foundation 5. It is untested with earlier versions of Foundation.</p>
+					
+					<p>If you use Bower or npm:</p>
+					<pre><code class="language-markup">bower install responsive-equalized-heights
+	npm install responsive-equalized-heights
+	</code></pre>
+
+					<h2>Usage</h2>
+					<p>Responsive height class names follow this format: <code><nobr>&lt;screen_size&gt;-height-&lt;group_name&gt;</nobr></code>.</p>
+					<table><tbody>
+						<tr><td><p><code>screen_size</code></p></td><td><p>Any of the Foundation screen-size media query names:<br><code>small</code>, <code>medium</code>, <code>large</code>, <code>xlarge</code>, or <code>xxlarge</code>.</p></td></tr>
+						<tr><td><p><code>group_name</code></p></td><td><p>Any arbitrary string that creates a valid class name.</p>
+						<p>One or two lowercase letters works well: <code><nobr>medium-height-a</nobr></code>.</p><p>Longer group names also work: <code><nobr>medium-height-iCaNhAS-cHeEzBuRgEr</nobr></code>.</p>
+						<p><code>auto</code> is a reserved group name and will not trigger equalized heights. Use it to override smaller screen equalization by reverting to auto-height layout on larger screens.</td></tr>
+					</tbody></table>
+
+					<h2>Basics</h2>
+					<p>Responsive element height classes act just like column width classes with regard to screen size:</p>
+					<ul>
+						<li>Adding a class of <code><nobr>medium-height-a</nobr></code> to two elements will equalize their height on medium and larger screens.</li>
+						<li>Adding a class of <code><nobr>large-height-a</nobr></code> to another element will equalize the height of all three elements on large screens and above.</li>
+						<li>Adding a class of <code><nobr>small-height-b</nobr></code> to two elements will equalize their height for all screen sizes.</li>
+					</ul>
+					<p>There are no container classes, no data attributes, and no parent element requirements. Elements can appear anywhere on the page.</p>
+					<p>Multiple height classes may be used to specify different height groups based on screen size. Using the classes <code><nobr>medium-height-a</nobr> <nobr>large-height-b</nobr></code> would match height group <code>a</code> on medium screens and height group <code>b</code> on large screens and above.</p>
+					<p>Elements that are in the same group at the current screen size will share equal height.</p>
+					<p>Height classes that are not active, such as the class <code><nobr>xlarge-height-a</nobr></code> on a medium screen, are ignored when determining group height.</p>
+					<p>In the examples below, I&rsquo;ve added height classes to <code>.panel</code> elements inside <code>.column</code> elements. You can add height classes directly on the column divs, or any other element you wish&mdash;this pattern of content inside grid containers works best for me.</p>
+
+					<h2>Callbacks</h2>
+					<p>Just as with Foundation Equalizer, there are two ways to attach callbacks.</p>
+					
+					<h3>Callback Functions</h3>
+					<pre><code class="language-javascript">// before_height_change callback
+	Foundation.responsive_heights.before_height_change = function () {
+		console.log("before_height_change callback");
+	};
+
+	// after_height_change callback
+	Foundation.responsive_heights.after_height_change = function () {
+		console.log("after_height_change callback");
+	};</code></pre>
+
+					<h3>Events</h3>
+					<pre><code class="language-javascript">// before-height-change.fndtn.responsive-heights event
+	$(document).on('before-height-change.fndtn.responsive-heights', function(){
+	  console.log("before-height-change.fndtn.responsive-heights event");
+	});
+
+	// after-height-change.fndtn.responsive-heights event
+	$(document).on('after-height-change.fndtn.responsive-heights', function(){
+	  console.log("after-height-change.fndtn.responsive-heights event");
+	});</code></pre>
+		
+					<h2>How It Works</h2>
+					<p>Element heights are not set directly on the elements themselves&mdash;rather, for each active screen size, a stylesheet is updated with rules for each active group. A throttled window resize handler refreshes the rules as needed.</p>
+					<p>The JavaScript module extends the global Foundation object with a <code>responsive_heights</code> object, which contains two methods (<code>update</code> and <code>remove</code>) and a reference to the stylesheets for each screen size.</p>
+					<p>To manually remove all responsive height style rules, use the <code>remove</code> method, and to manually restore or refresh responsive height style rules, use the <code>update</code> method.</p>
+					<p>In JavaScript:</p>
+					<pre><code class="language-javascript">// remove method
+	Foundation.responsive_heights.remove();
+
+	// update method
+	Foundation.responsive_heights.update();</code></pre>
+					<p>Try it: <button value="remove" class="tiny radius" title="Remove all responsive height rules from this page">Remove Rules</button> <button value="update" class="tiny radius" title="Update responsive height rules on this page">Update Rules</button></p>
+					
+
+					<h2>Examples</h2>
+					
+					<div class="example">
+						<h3>Always Equal</h3>
+						<div class="example-content">
+							<p>Two elements, always equal in height.</p>
+							<p>Using the small screen size height classes will set the height group for all screens. These elements will share equal height on all screen sizes from small to xxlarge.</p>
+							<div class="row">
+								<div class="column small-6">
+									<div class="card small-height-a">
+										<div class="card-section">
+											<p><code><nobr>small-height-a</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column small-6">
+									<div class="card small-height-a">
+										<div class="card-section">
+											<p><code><nobr>small-height-a</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="example">
+						<h3>Equal for Medium and Larger Screens</h3>
+						<div class="example-content">
+							<p>Two elements, equal in height for medium and larger screens.</p>
+							<p>If no height class applies to the current screen size, elements heights are not affected. These elements stack and shrink to fit their content on small screens, but arrange side-by-side with equalized height on medium and larger screens.</p>
+							<div class="row">
+								<div class="column medium-6">
+									<div class="card medium-height-b">
+										<div class="card-section">
+											<p><code><nobr>medium-height-b</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column medium-6">
+									<div class="card medium-height-b">
+										<div class="card-section">
+											<p><code><nobr>medium-height-b</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="example">				
+						<h3>Equal for Medium Screens Only</h3>
+						<div class="example-content">
+							<p>Two elements, equal in height for medium screens only.</p>
+							<p>The group name <code>auto</code> is reserved for all screen sizes, and will revert to auto-height layout. Use the format <code><nobr>&lt;screen_size&gt;-height-auto</nobr></code></p>
+							<p>This example uses the class <code><nobr>large-height-auto</nobr></code> to responsively revert to auto-height layout for large screens and above.</p>
+							<div class="row">
+								<div class="column medium-6 large-12">
+									<div class="card medium-height-c large-height-auto">
+										<div class="card-section">
+											<p><code><nobr>medium-height-c</nobr> <nobr>large-height-auto</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column medium-6 large-12">
+									<div class="card medium-height-c large-height-auto">
+										<div class="card-section">
+											<p><code><nobr>medium-height-c</nobr> <nobr>large-height-auto</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="example">				
+						<h3>Responsive Group of Three</h3>
+						<div class="example-content">
+							<p>Three elements, two are always equal. On large screens and above, all three are equal.</p>
+							<p>To facilitate more complex responsive layouts where elements are stacked sometimes and side-by-side at other times, height groups can be configured based on screen size.</p>
+							<p>The class <code><nobr>large-height-d</nobr></code> is ignored on small and medium screens, but is active on large, xlarge, and xxlarge screens.</p>
+							<div class="row">
+								<div class="column small-6 large-4">
+									<div class="card small-height-d">
+										<div class="card-section">
+											<p><code><nobr>small-height-d</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column small-6 large-4">
+									<div class="card small-height-d">
+										<div class="card-section">
+											<p><code><nobr>small-height-d</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column large-4">
+									<div class="card large-height-d">
+										<div class="card-section">
+											<p><code><nobr>large-height-d</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="example">				
+						<h3>Responsive Group of Six</h3>
+						<div class="example-content">
+							<p>Six elements arranged in responsive columns. Height groups are set to responsively match horizontally arranged elements.</p>
+							<p>Complex equalized layouts can be created. These six elements rearrange themselves for a different configuration at small, medium, and large screen sizes.</p>
+							<div class="row">
+								<div class="column medium-6 large-4">
+									<div class="card medium-height-e large-height-g">
+										<div class="card-section">
+											<p><code><nobr>medium-height-e</nobr> <nobr>large-height-g</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column medium-6 large-4">
+									<div class="card medium-height-e large-height-g">
+										<div class="card-section">
+											<p><code><nobr>medium-height-e</nobr> <nobr>large-height-g</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column medium-4">
+									<div class="card medium-height-f large-height-g">
+										<div class="card-section">
+											<p><code><nobr>medium-height-f</nobr> <nobr>large-height-g</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column medium-4">
+									<div class="card medium-height-f large-height-h">
+										<div class="card-section">
+											<p><code><nobr>medium-height-f</nobr> <nobr>large-height-h</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column medium-4">
+									<div class="card medium-height-f large-height-h">
+										<div class="card-section">
+											<p><code><nobr>medium-height-f</nobr> <nobr>large-height-h</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column large-4">
+									<div class="card large-height-h">
+										<div class="card-section">
+											<p><code><nobr>large-height-h</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="example">
+						<h3>Arbitrary Group Names</h3>
+						<div class="example-content">
+							<p>Group names can be any string that creates a valid class name.</p>
+							<p>Remember that <code>auto</code> is a reserved group name.</p>
+							<div class="row">
+								<div class="column medium-6">
+									<div class="card medium-height-I-Can-Has">
+										<div class="card-section">
+											<p><code><nobr>medium-height-I-Can-Has</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column medium-6">
+									<div class="card medium-height-I-Can-Has">
+										<div class="card-section">
+											<p><code><nobr>medium-height-I-Can-Has</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+										</div>
+										
+									</div>
+								</div>
+								<div class="column large-6">
+									<div class="card large-height-cHeEz_BuRgEr">
+										<div class="card-section">
+											<p><code><nobr>large-height-cHeEz_BuRgEr</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet.</p>
+										</div>
+									</div>
+								</div>
+								<div class="column large-6">
+									<div class="card large-height-cHeEz_BuRgEr">
+										<div class="card-section">
+											<p><code><nobr>large-height-cHeEz_BuRgEr</nobr></code></p>
+											<p class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/responsive-equalized-heights.js"></script>
+		<script src="../js/vendor/prism.js"></script>
+		<script>
+			(function (window, undefined) {
+				var sizes, F, $, $message;
+
+				// each
+				function each(array, callback) {
+					var index, max;
+
+					index = 0;
+					max = array.length;
+
+					if (!array || !max) { return; }
+
+					while (index < max) {
+						if (callback(array[index], index) === false) { return; }
+						index += 1;
+					}
+				}
+
+				// map
+				function map(array, callback) {
+					var index = 0,
+						max = array.length,
+						ret = [];
+
+					if (!array || !max) { return ret; }
+
+					while (index < max) {
+						ret[index] = callback(array[index], index);
+						index += 1;
+					}
+
+					return ret;
+				}
+
+				// compact
+				function compact(array) {
+					var ret = [];
+
+					each(array, function (item) {
+						if (item) { ret.push(item); }
+					});
+
+					return ret;
+				}
+	
+				function updateScreenSizeMessage() {
+					var activeSizes, currentSize;
+					
+					activeSizes = compact(map(sizes, function (size) {
+						if (matchMedia(F.media_queries[size]).matches) {
+							return size;
+						}
+					}));
+
+					currentSize = activeSizes[activeSizes.length - 1];
+					
+					$message.text("current screen size: " + currentSize);
+				}
+				
+				F = window.Foundation;
+				$ = window.jQuery;
+				
+				$message = $("#screen_size_message");
+				
+				sizes = "small medium large xlarge xxlarge".split(" ");
+
+				$(document).foundation();
+			
+				$(window).on("resize", F.utils.throttle(updateScreenSizeMessage, 250));
+
+				$("button").on("click", function () {
+					F.responsive_heights[this.value]();
+				});
+				
+				updateScreenSizeMessage();
+			})(this);
+		</script>
+	</body>
 </html>
+
